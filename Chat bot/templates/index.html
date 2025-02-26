@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Form</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Patient Information</h2>
+        <form id="patientForm">
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" required>
+
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <label for="symptoms">Describe Your Symptoms:</label>
+            <textarea id="symptoms" name="symptoms" required></textarea>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('patientForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+    
+            const patientData = {
+                name: document.getElementById('name').value,
+                age: document.getElementById('age').value,
+                gender: document.getElementById('gender').value,
+                symptoms: document.getElementById('symptoms').value
+            };
+    
+            fetch('/submit_form', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },  // Correct header
+                body: JSON.stringify(patientData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.redirect) {
+                    window.location.href = data.redirect; // Redirect on success
+                } else {
+                    alert("Error: " + (data.error || "Unknown error"));
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+    
+    
+</body>
+</html>
