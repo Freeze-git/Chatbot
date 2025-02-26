@@ -10,7 +10,7 @@ from flask_cors import CORS # type: ignore
 CORS(app)
 
 # Configure Google Gemini AI API
-genai.configure(api_key="AIzaSyDPR_IFWWTUpGFAI1f_om9g_K7emsqohMU")
+genai.configure(api_key="Your-API-here")
 
 # File to store patient data
 DATA_FILE = "patient_data.json"
